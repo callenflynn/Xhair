@@ -1,0 +1,39 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        run: dotnet restore src/src.sln
+
+      - name: Publish app
+        run: dotnet publish src/Xhair.csproj -c Release -r win-x64 -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o publish/app
+
+      - name: Publish installer
+        run: dotnet publish src/Installer/XhairInstaller.csproj -c Release -r win-x64 -p:PublishSingleFile=true -p:SelfContained=true -o publish/installer
+
+      - name: Package release
+        run: |
+          Compress-Archive -Path publish/app/* -DestinationPath release.zip
+          Copy-Item publish/installer/XhairInstaller.exe XhairInstaller.exe
+
+      - name: Upload assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            release.zip
+            XhairInstaller.exe

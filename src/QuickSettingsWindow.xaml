@@ -1,0 +1,32 @@
+<Window x:Class="Xhair.QuickSettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Xhair Quick Settings"
+        Height="200"
+        Width="260"
+        WindowStyle="ToolWindow"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        Topmost="True"
+        WindowStartupLocation="Manual">
+    <Border Padding="12">
+        <StackPanel Orientation="Vertical">
+            <TextBlock Text="Quick Settings" FontWeight="Bold" Margin="0,0,0,8" />
+
+            <TextBlock Text="Profile" FontWeight="SemiBold" />
+            <ComboBox ItemsSource="{Binding Profiles}"
+                      SelectedItem="{Binding SelectedProfileName}"
+                      SelectionChanged="OnProfileChanged" />
+
+            <ToggleButton Content="Crosshair Enabled"
+                          IsChecked="{Binding IsEnabled}"
+                          Margin="0,10,0,0"
+                          Padding="10,4" />
+
+            <Button Content="Open App" Width="120" Margin="0,12,0,0" Click="OnOpenApp" />
+        </StackPanel>
+    </Border>
+</Window>
