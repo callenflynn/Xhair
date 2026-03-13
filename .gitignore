@@ -419,6 +419,7 @@ FodyWeavers.xsd
 
 # Keep installer deliverables under publish/installer tracked
 !publish/
+publish/*
 !publish/installer/
 !publish/installer/**
 !publish/installer/**/*.cab
